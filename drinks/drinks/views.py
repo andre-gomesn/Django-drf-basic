@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework import status
 
 @api_view(['GET', 'POST'])
-def drinks_page(request):
+def drinks_page(request,format=None):
     if request.method == 'GET':
         drinks = Drink.objects.all()
         serializer = DrinkSerializer(drinks, many=True)
-        return JsonResponse({'data': serializer.data})
+        return Response(serializer.data)
     
     if request.method == 'POST':
         serializer = DrinkSerializer(data=request.data)
@@ -20,7 +20,7 @@ def drinks_page(request):
         
 
 @api_view(['GET','PUT','DELETE'])
-def especific_drink_page(request,id):
+def especific_drink_page(request,id,format=None):
     try:
         drink=Drink.objects.get(pk=id)
     except Drink.DoesNotExist:
